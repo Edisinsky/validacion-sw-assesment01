@@ -1,6 +1,7 @@
 package com.viraj.sample.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.viraj.sample.SampleApplication;
 import com.viraj.sample.entity.Employee;
 import com.viraj.sample.repository.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
+@SpringBootTest(classes = SampleApplication.class)
 @AutoConfigureMockMvc
 class EmployeeIntegrationTest {
 
@@ -43,9 +44,11 @@ class EmployeeIntegrationTest {
                 .content(objectMapper.writeValueAsString(emp)))
                 .andExpect(status().isOk());
 
-        assert(employeeRepository.count() == 1);
+        if (employeeRepository.count() != 1) {
+            throw new RuntimeException("Error: El empleado no se guardó en la base de datos H2");
+        }
 
-        mockMvc.perform(get("/employee/getAll"))
+        mockMvc.perform(get("/employee/getall"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name").value("Integration User"));
     }
