@@ -1,55 +1,55 @@
 package com.viraj.sample.entity;
 
-import lombok.Data;
-
 import javax.persistence.*;
 
-@Data
 @Entity
-@Table(name = "EMPLOYEE")
+@Table(name = "employee")
 public class Employee {
 
     @Id
-    @Column(name = "EMPLOYEE_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long employeeId;
-
-    @Column(name = "EMPLOYEE_NAME")
-    private String employeeName;
-
-    @Column(name = "EMPLOYEE_DESCRIPTION")
-    private String employeeDescription;
+    private Long id;
+    
+    @Column(name = "employee_name")
+    private String name;
+    
+    @Column(name = "employee_dept")
+    private String dept;
 
     public Employee() {
     }
 
-    public Employee(String employeeName, String employeeDescription) {
-        this.employeeName = employeeName;
-        this.employeeDescription = employeeDescription;
+    public Employee(String name, String dept) {
+        this.name = name;
+        this.dept = dept;
     }
 
-    public String getEmployeeName() {
-        return employeeName;
+    public Long getId() {
+        return id;
     }
 
-    public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getEmployeeDescription() {
-        return employeeDescription;
+    public String getName() {
+        return name;
     }
 
-    public void setEmployeeDescription(String employeeDescription) {
-        this.employeeDescription = employeeDescription;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDept() {
+        return dept;
+    }
+
+    public void setDept(String dept) {
+        this.dept = dept;
     }
 
     @Override
     public String toString() {
-        return "Employee{" +
-                "employeeId=" + employeeId +
-                ", employeeName='" + employeeName + '\'' +
-                ", employeeDescription='" + employeeDescription + '\'' +
-                '}';
+        return "Employee{id=" + id + ", name='" + name + "', dept='" + dept + "'}";
     }
 }
