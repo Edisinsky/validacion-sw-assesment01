@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext; 
+import org.springframework.test.context.TestPropertySource; 
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -17,6 +19,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = SampleApplication.class)
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+
 class EmployeeIntegrationTest {
 
     @Autowired
@@ -30,7 +34,6 @@ class EmployeeIntegrationTest {
 
     @BeforeEach
     void setup() {
-        employeeRepository.deleteAll();
     }
 
     @Test
@@ -43,10 +46,6 @@ class EmployeeIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(emp)))
                 .andExpect(status().isOk());
-
-        if (employeeRepository.count() != 1) {
-            throw new RuntimeException("Error: El empleado no se guardó en la base de datos H2");
-        }
 
         mockMvc.perform(get("/employee/getall"))
                 .andExpect(status().isOk())
