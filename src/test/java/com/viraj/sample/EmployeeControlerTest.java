@@ -27,7 +27,7 @@ class EmployeeControllerTest {
     private EmployeeService employeeService;
 
     @Autowired
-    private ObjectMapper objectMapper; 
+    private ObjectMapper objectMapper;
 
     @Test
     void testSaveEmployee() throws Exception {
@@ -52,7 +52,9 @@ class EmployeeControllerTest {
 
         given(employeeService.getAllEmployees()).willReturn(Arrays.asList(e1, e2));
 
-        mockMvc.perform(get("/employee/getAll"))
+
+        mockMvc.perform(get("/employee/getall")) 
+
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(2));
     }
